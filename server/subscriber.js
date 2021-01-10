@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const app = express();
+const expressWS = require('express-ws')(app);
 const cors = require('cors');
 const { createSocket, printMessage } = require('./helper');
 const { subscribe, setTopicInfo } = require('./topics');
@@ -58,5 +59,5 @@ app.ws('/:topic', (socket, req) => {
 });
 
 app.listen(SUBSCRIBER_PORT, () => {
-  console.log(`Publisher listening on port ${PUBLISHER_PORT}`);
+  console.log(`Subscriber listening on port ${SUBSCRIBER_PORT}`);
 });
