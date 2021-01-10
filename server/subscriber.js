@@ -16,13 +16,6 @@ app.post('/test1', (req, res) => {
   const url = `http://localhost:${SUBSCRIBER_PORT}/test1`;
 
   subscribe(topic, res);
-
-  const socket = createSocket(topic);
-  socket.on('message', (data) => {
-    const dataObject = JSON.parse(data);
-    printMessage(dataObject);
-  });
-
   return res.status(200).json({
     url,
     topic

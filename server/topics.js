@@ -29,6 +29,12 @@ const subscribe = (topic, res) => {
         message: `this server has aleady been subscribed to this topic`
       });
   }
+
+  const socket = createSocket(topic);
+  socket.on('message', (data) => {
+    const dataObject = JSON.parse(data);
+    printMessage(dataObject);
+  });
 };
 
 module.exports = { setTopicInfo, publish, subscribe };
