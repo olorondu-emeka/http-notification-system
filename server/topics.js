@@ -1,3 +1,5 @@
+const { createSocket } = require('./helper');
+
 const TOPICS = {};
 
 const setTopicInfo = (topic, topicInfo) => {
@@ -17,7 +19,7 @@ const publish = (topic, message) => {
   }
 };
 
-const subscribe = (topic, res) => {
+const subscribe = (topic, url, res) => {
   const topicInfoArray = TOPICS[topic] || [];
 
   if (topicInfoArray.length) {

@@ -14,8 +14,21 @@ const SUBSCRIBER_PORT = process.env.SUBSCRIBER_PORT;
 app.post('/test1', (req, res) => {
   const { topic } = req.body;
   const url = `http://localhost:${SUBSCRIBER_PORT}/test1`;
+  req.url = url;
 
-  subscribe(topic, res);
+  subscribe(topic, url, res);
+  return res.status(200).json({
+    url,
+    topic
+  });
+});
+
+app.post('/test2', (req, res) => {
+  const { topic } = req.body;
+  const url = `http://localhost:${SUBSCRIBER_PORT}/test2`;
+  req.url = url;
+
+  subscribe(topic, url, res);
   return res.status(200).json({
     url,
     topic
@@ -23,9 +36,10 @@ app.post('/test1', (req, res) => {
 });
 
 app.ws('/:topic', (socket, req) => {
+  // possible error here
   try {
     const { topic } = req.params;
-    const { url } = req.body;
+    const { url } = req;
 
     setTopicInfo(topic, { url, socket });
 
