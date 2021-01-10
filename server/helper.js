@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const WebSocket = require('ws');
-const axios = require('axios');
 
 const PUBLISHER_PORT = process.env.PUBLISHER_PORT;
 const SUBSCRIBER_PORT = process.env.SUBSCRIBER_PORT;
