@@ -1,0 +1,28 @@
+{
+  "name": "http-notification-system",
+  "version": "1.0.0",
+  "description": "a simple http notification system using the publisher-subscriber model",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olorondu-emeka/http-notification-system.git"
+  },
+  "keywords": [
+    "publisher",
+    "subscriber"
+  ],
+  "author": "Olorondu Chukwuemeka",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/olorondu-emeka/http-notification-system/issues"
+  },
+  "homepage": "https://github.com/olorondu-emeka/http-notification-system#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-ws": "^4.0.0",
+    "ws": "^7.4.2"
+  }
+}
