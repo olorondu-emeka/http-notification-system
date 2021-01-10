@@ -18,6 +18,19 @@ app.post('/subscribe/:topic', (req, res) => {
     validateField('topic param', res);
     validateField('url field', res);
 
+    const topicInfoArray = TOPICS[topic] || [];
+    if (topicInfoArray.length) {
+      const existingTopicInfo = topicInfoArray.filter(
+        (topicInfo) => topicInfo.url === url
+      );
+      if (existingTopicInfo.length)
+        res
+          .status(409)
+          .json({
+            message: `this server has aleady been subscribed to this topic`
+          });
+    }
+
     createSocket(topic);
     return res.status(200).json({
       url,
