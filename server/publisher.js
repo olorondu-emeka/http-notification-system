@@ -21,10 +21,10 @@ app.post('/subscribe/:topic', async (req, res) => {
     validateField('topic param', res);
     validateField('url field', res);
 
-    const response = await axios.post(url, topic);
-    return res.status(200).json(response);
+    const { data } = await axios.post(url, { topic });
+    return res.status(200).json({ response: data });
   } catch (error) {
-    console.log('subscribe error', error);
+    console.log('subscribe error from publisher', error);
     return res.status(500).json({ error });
   }
 });
