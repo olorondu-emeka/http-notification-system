@@ -5,7 +5,7 @@ const app = express();
 const expressWS = require('express-ws')(app);
 const cors = require('cors');
 const { createSocket, printMessage } = require('./helper');
-const { subscribe, setTopicInfo } = require('./topics');
+const { subscribe, setTopicInfo, getTopicInfo } = require('./topics');
 
 app.use(express.json());
 app.use(cors());
@@ -14,18 +14,17 @@ const SUBSCRIBER_PORT = process.env.SUBSCRIBER_PORT;
 
 app.post('/test1', (req, res) => {
   try {
-    console.log('hello from test1');
+    // console.log('hello from test1');
 
     const { topic } = req.body;
     const url = `http://localhost:${SUBSCRIBER_PORT}/test1`;
-    req.url = url;
 
-    console.log(topic, url);
+    let topics = subscribe(topic, url, res);
 
-    subscribe(topic, url, res);
     return res.status(200).json({
       url,
-      topic
+      topic,
+      topics
     });
   } catch (error) {
     console.log('subscribe error from subscriber', error);
@@ -35,16 +34,16 @@ app.post('/test1', (req, res) => {
 
 app.post('/test2', (req, res) => {
   try {
-    console.log('hello from test2');
+    // console.log('hello from test2');
 
     const { topic } = req.body;
     const url = `http://localhost:${SUBSCRIBER_PORT}/test2`;
-    req.url = url;
 
-    subscribe(topic, url, res);
+    let topics = subscribe(topic, url, res);
     return res.status(200).json({
       url,
-      topic
+      topic,
+      topics
     });
   } catch (error) {
     console.log('subscribe error from subscriber', error);
@@ -52,27 +51,31 @@ app.post('/test2', (req, res) => {
   }
 });
 
-app.ws('/:topic', (socket, req) => {
-  // possible error here
-  try {
-    const { topic } = req.params;
-    const { url } = req;
+// app.ws('/:topic', (socket, req) => {
+//   // possible error here
+//   try {
+//     const { topic } = req.params;
+//     const { url } = req.query;
 
-    setTopicInfo(topic, { url, socket });
+//     TOPIC_INFO = setTopicInfo(topic, { url, socket });
+//     // console.log('TOPIC_INFO', TOPIC_INFO);
 
-    socket.on('close', () => {
-      let currentIndex;
-      const urlCopy = url;
+//     socket.on('close', () => {
+//       let currentIndex;
+//       const urlCopy = url;
 
-      topicInfoArray.forEach((topicInfo, index) => {
-        if (topicInfo.url === urlCopy) currentIndex = index;
-      });
-      topicInfoArray.splice(currentIndex, 1);
-    });
-  } catch (error) {
-    console.log('websocket error: ', error);
-  }
-});
+//       // error here...missing topicInfoArray parameter
+//       topicInfoArray.forEach((topicInfo, index) => {
+//         if (topicInfo.url === urlCopy) currentIndex = index;
+//       });
+//       topicInfoArray.splice(currentIndex, 1);
+//     });
+
+//     console.log('done from web socket');
+//   } catch (error) {
+//     console.log('websocket error: ', error);
+//   }
+// });
 
 app.listen(SUBSCRIBER_PORT, () => {
   console.log(`Subscriber listening on port ${SUBSCRIBER_PORT}`);
