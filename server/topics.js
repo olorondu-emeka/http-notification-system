@@ -2,10 +2,13 @@ const { createSocket, printMessage } = require('./helper');
 
 const TOPICS = {};
 
-const getTopicInfo = (topic) => TOPICS;
+const getTopicInfo = () => TOPICS;
 
 const setTopicInfo = (topic, topicInfo) => {
   if (!TOPICS[topic]) TOPICS[topic] = [];
+
+  // console.log('socket topicInfo', topicInfo.socket.send);
+  console.log('topicInfo socket send', topicInfo.socket.send);
 
   const topicInfoArray = TOPICS[topic];
   topicInfoArray.push(topicInfo);
@@ -16,10 +19,10 @@ const publish = (topicInfoArray, message) => {
 
   if (localTopicInfoArray.length) {
     console.log('yo');
-    for (topicInfo of topicInfoArray) {
-      const { socket } = topicInfo;
-      console.log('topicInfo', socket);
-      socket.send(message);
+    for (let topicInfo of topicInfoArray) {
+      // const { socket } = topicInfo;
+      console.log('topicInfo', topicInfo);
+      topicInfo.socket.send(JSON.stringify(message));
     }
   }
 };
@@ -37,12 +40,13 @@ const subscribe = (topic, url, res) => {
       });
   }
 
-  const socket = createSocket(topic, url);
+  const socket = createSocket(url);
+  console.log(socket.send);
   setTopicInfo(topic, { url, socket });
 
   socket.on('message', (data) => {
-    const dataObject = JSON.parse(data, url);
-    printMessage(dataObject);
+    const dataObject = JSON.parse(data);
+    printMessage(dataObject, url);
   });
 
   socket.on('close', () => {

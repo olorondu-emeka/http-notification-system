@@ -15,10 +15,7 @@ const SUBSCRIBER_PORT = process.env.SUBSCRIBER_PORT;
 app.post('/test1', (req, res) => {
   try {
     // console.log('hello from test1');
-
-    const { topic } = req.body;
-    const url = `http://localhost:${SUBSCRIBER_PORT}/test1`;
-
+    const { topic, url } = req.body;
     let topics = subscribe(topic, url, res);
 
     return res.status(200).json({
@@ -36,8 +33,7 @@ app.post('/test2', (req, res) => {
   try {
     // console.log('hello from test2');
 
-    const { topic } = req.body;
-    const url = `http://localhost:${SUBSCRIBER_PORT}/test2`;
+    const { topic, url } = req.body;
 
     let topics = subscribe(topic, url, res);
     return res.status(200).json({

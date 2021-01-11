@@ -22,8 +22,9 @@ app.post('/subscribe/:topic', async (req, res) => {
     validateField('topic param', res);
     validateField('url field', res);
 
-    const { data } = await axios.post(url, { topic });
+    const { data } = await axios.post(url, { topic, url });
     TOPICS = data.topics;
+    console.log('topics', TOPICS);
     delete data.topics;
 
     return res.status(200).json({ ...data });
