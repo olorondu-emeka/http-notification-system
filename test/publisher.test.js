@@ -9,7 +9,7 @@ describe('Publisher tests', () => {
     const response = await chai
       .request(publisher)
       .post('/publish/topic1')
-      .send({ mssage: 'Welcome to topic1' });
+      .send({ message: 'Welcome to topic1' });
 
     expect(response).to.have.status(200);
   });
@@ -20,13 +20,6 @@ describe('Publisher tests', () => {
       .post('/publish/topic1')
       .send({});
 
-    // const emptyString = '';
-    // const responseForEmpptyTopic = await chai
-    //   .request(publisher)
-    //   .post(`/publish/${emptyString}`)
-    //   .send({ mssage: 'Welcome to topic1' });
-
-    // expect(responseForEmpptyTopic).to.have.status(400);
     expect(responseForEmptyBody).to.have.status(400);
   });
 
@@ -34,8 +27,43 @@ describe('Publisher tests', () => {
     const response = await chai
       .request(publisher)
       .post('/bad-route')
-      .send({ mssage: 'Welcome to topic1' });
+      .send({ message: 'Welcome to topic1' });
 
     expect(response).to.have.status(404);
+  });
+});
+
+describe('Subscriber tests (subscribe)', () => {
+  it('should successfully subscribe to a topic', async () => {
+    const responseForFirstRoute = await chai
+      .request(publisher)
+      .post('/subscribe/topic1')
+      .send({ url: 'http://localhost:9000/test1' });
+
+    const responseForSecondRoute = await chai
+      .request(publisher)
+      .post('/subscribe/topic1')
+      .send({ url: 'http://localhost:9000/test2' });
+
+    expect(responseForFirstRoute).to.have.status(200);
+    expect(responseForSecondRoute).to.have.status(200);
+  });
+
+  it('should throw a 409 error for an existing url subscribed to a topic', async () => {
+    const response = await chai
+      .request(publisher)
+      .post('/subscribe/topic1')
+      .send({ url: 'http://localhost:9000/test1' });
+
+    expect(response).to.have.status(409);
+  });
+
+  it('should throw a 400 error for incomplete request details', async () => {
+    const responseForEmptyBody = await chai
+      .request(publisher)
+      .post('/subscribe/topic1')
+      .send({});
+
+    expect(responseForEmptyBody).to.have.status(400);
   });
 });

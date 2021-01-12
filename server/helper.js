@@ -20,7 +20,7 @@ const validateField = (fieldName, fieldValue, res) => {
  * @returns {json} JSON response
  */
 const validateObject = (objectName, objectValue, res) => {
-  if (Object.keys(objectValue).length === 0) {
+  if (!objectValue || Object.keys(objectValue).length === 0) {
     return res.status(400).json({
       message: `${objectName} is required`
     });

@@ -8,17 +8,17 @@ const app = express();
 
 app.use(express.json());
 
-app.post('/publish/:topic', Controller.publish);
-app.post('/subscribe/:topic', Controller.subscribe);
+app.post('/test1', Controller.printMessage);
+app.post('/test2', Controller.printMessage);
 
 app.use('*', (request, response) => {
   response.status(404).send({ message: 'Not Found' });
 });
 
-const { PUBLISHER_PORT } = process.env;
+const { SUBSCRIBER_PORT } = process.env;
 
-app.listen(PUBLISHER_PORT, () => {
-  console.log(`Publisher listening on port ${PUBLISHER_PORT}`);
+app.listen(SUBSCRIBER_PORT, () => {
+  console.log(`Subscriber listening on port ${SUBSCRIBER_PORT}`);
 });
 
 module.exports = app;
