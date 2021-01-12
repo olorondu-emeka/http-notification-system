@@ -1,4 +1,7 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
 /* eslint-disable no-console */
+
 const promise = require('bluebird');
 const axios = require('axios');
 
@@ -44,6 +47,7 @@ module.exports = class Controller {
 
       return res.status(200).json({ message: 'publish successful' });
     } catch (error) {
+      // console.log('publish error', error);
       return res.status(500).json({ errorMessage: 'internal server error' });
     }
   }
@@ -77,6 +81,7 @@ module.exports = class Controller {
       topicUrls.push(url);
       return res.status(200).json({ url, topic });
     } catch (error) {
+      // console.log('subscribe error', error);
       return res.status(500).json({ errorMessage: 'internal server error' });
     }
   }
@@ -92,7 +97,12 @@ module.exports = class Controller {
   static async printMessage(req, res) {
     try {
       const { topic, data } = req.body;
+
+      validateField('topic', topic, res);
+      validateObject('data', data, res);
+
       const { url } = req.query;
+
       const completeMessage = `
             Data Summary:
             **************
@@ -102,13 +112,14 @@ module.exports = class Controller {
 
       console.log(completeMessage);
       if (Object.keys(data).length) {
-        // for (const key in data) {
-        //   console.log(`${key}: ${data[key]}`);
-        // }
+        for (const key in data) {
+          console.log(`${key}: ${data[key]}`);
+        }
       }
 
       return res.status(200).json({ message: 'data received' });
     } catch (error) {
+      // console.log('printMessage error', error);
       return res.status(500).json({ errorMessage: 'internal server error' });
     }
   }
