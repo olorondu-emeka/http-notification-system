@@ -1,4 +1,4 @@
-# http-notification-system
+# HTTP Notification System
 
 A simple HTTP notification system
 
