@@ -11,7 +11,7 @@ app.use(express.json());
 app.post('/publish/:topic', Controller.publish);
 
 app.use('*', (request, response) => {
-  response.status(404).send({ errorMessage: 'Not Found' });
+  response.status(404).send({ message: 'Not Found' });
 });
 
 const { PUBLISHER_PORT } = process.env;
