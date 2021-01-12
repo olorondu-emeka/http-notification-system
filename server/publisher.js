@@ -15,10 +15,10 @@ app.use('*', (request, response) => {
   response.status(404).send({ message: 'Not Found' });
 });
 
-const { PUBLISHER_PORT } = process.env;
+const PORT = process.env.PUBLISHER_PORT || 8000;
 
-app.listen(PUBLISHER_PORT, () => {
-  console.log(`Publisher listening on port ${PUBLISHER_PORT}`);
+app.listen(PORT, () => {
+  console.log(`Publisher listening on port ${PORT}`);
 });
 
 module.exports = app;

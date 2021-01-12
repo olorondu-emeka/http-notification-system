@@ -15,10 +15,10 @@ app.use('*', (request, response) => {
   response.status(404).send({ message: 'Not Found' });
 });
 
-const { SUBSCRIBER_PORT } = process.env;
+const PORT = process.env.SUBSCRIBER_PORT || 9000;
 
-app.listen(SUBSCRIBER_PORT, () => {
-  console.log(`Subscriber listening on port ${SUBSCRIBER_PORT}`);
+app.listen(PORT, () => {
+  console.log(`Subscriber listening on port ${PORT}`);
 });
 
 module.exports = app;
