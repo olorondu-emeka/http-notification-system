@@ -104,7 +104,7 @@ module.exports = class Controller {
       const { url } = req.query;
 
       const completeMessage = `
-            Data Summary:
+            Publish Summary:
             **************
             Topic Name: ${topic}
             URL: ${url}

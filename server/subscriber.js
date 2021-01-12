@@ -8,7 +8,8 @@ const app = express();
 
 app.use(express.json());
 
-app.post('/', Controller.printMessage);
+app.post('/test1', Controller.printMessage);
+app.post('/test2', Controller.printMessage);
 
 app.use('*', (request, response) => {
   response.status(404).send({ message: 'Not Found' });
