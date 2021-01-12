@@ -7,8 +7,8 @@
     "test": "nyc mocha --timeout 20000 -r esm --exit",
     "lint": "eslint '**/*.js'",
     "lint:fix": "prettier-eslint '**/*.js' --write",
-    "start:publisher": "node server/publisher.js",
-    "start:subscriber": "node server/subscriber.js"
+    "start:publisher": "nodemon server/publisher.js",
+    "start:subscriber": "nodemon server/subscriber.js"
   },
   "repository": {
     "type": "git",
