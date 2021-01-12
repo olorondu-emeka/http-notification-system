@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const promise = require('bluebird');
 const axios = require('axios');
 
@@ -32,7 +33,10 @@ module.exports = class Controller {
         await promise.map(
           topicUrls,
           async (topicUrl) => {
-            await axios.post(topicUrl, { topic, data: { ...data } });
+            await axios.post(`${topicUrl}?url=${topicUrl}`, {
+              topic,
+              data: { ...data }
+            });
           },
           { concurrency: 1 }
         );
@@ -72,6 +76,38 @@ module.exports = class Controller {
 
       topicUrls.push(url);
       return res.status(200).json({ url, topic });
+    } catch (error) {
+      return res.status(500).json({ errorMessage: 'internal server error' });
+    }
+  }
+
+  /**
+   * @static
+   * @async
+   * @memberof Controller
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @returns {Json} json object returned
+   */
+  static async printMessage(req, res) {
+    try {
+      const { topic, data } = req.body;
+      const { url } = req.query;
+      const completeMessage = `
+            Data Summary:
+            **************
+            Topic Name: ${topic}
+            URL: ${url}
+          `;
+
+      console.log(completeMessage);
+      if (Object.keys(data).length) {
+        // for (const key in data) {
+        //   console.log(`${key}: ${data[key]}`);
+        // }
+      }
+
+      return res.status(200).json({ message: 'data received' });
     } catch (error) {
       return res.status(500).json({ errorMessage: 'internal server error' });
     }

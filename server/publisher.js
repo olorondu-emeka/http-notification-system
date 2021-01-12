@@ -9,6 +9,7 @@ const app = express();
 app.use(express.json());
 
 app.post('/publish/:topic', Controller.publish);
+app.post('/subscribe/:topic', Controller.subscribe);
 
 app.use('*', (request, response) => {
   response.status(404).send({ message: 'Not Found' });
