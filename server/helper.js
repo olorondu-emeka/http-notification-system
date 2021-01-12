@@ -1,26 +1,33 @@
-require('dotenv').config();
-
-const WebSocket = require('ws');
-
-const PUBLISHER_PORT = process.env.PUBLISHER_PORT;
-const SUBSCRIBER_PORT = process.env.SUBSCRIBER_PORT;
-
-const createSocket = async (topic) => {
-  return new WebSocket(`ws://localhost:${PUBLISHER_PORT}/${topic}`);
+/**
+ * @param {string} fieldName name of field to be validated
+ * @param {string} fieldValue  value of field to be validated
+ * @param {object} res express.js response object
+ * @returns {json} JSON response
+ */
+const validateField = (fieldName, fieldValue, res) => {
+  if (!fieldValue) {
+    return res.status(400).json({
+      message: `${fieldName} is required`
+    });
+  }
 };
 
-const printMessage = () => {};
-
-const validateField = (field, res) => {
-  if (!field) {
+/**
+ *
+ * @param {string} objectName name of the object to be validated
+ * @param {object} objectValue the object to be validated
+ * @param {object} res express.js response object
+ * @returns {json} JSON response
+ */
+const validateObject = (objectName, objectValue, res) => {
+  if (Object.keys(objectValue).length === 0) {
     return res.status(400).json({
-      message: `${field} is required`
+      message: `${objectName} is required`
     });
   }
 };
 
 module.exports = {
-  createSocket,
-  printMessage,
-  validateField
+  validateField,
+  validateObject
 };
