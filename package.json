@@ -2,7 +2,6 @@
   "name": "http-notification-system",
   "version": "1.0.0",
   "description": "a simple http notification system using the publisher-subscriber model",
-  "main": "index.js",
   "scripts": {
     "test": "nyc mocha --timeout 20000 -r esm --exit",
     "lint": "eslint '**/*.js'",
